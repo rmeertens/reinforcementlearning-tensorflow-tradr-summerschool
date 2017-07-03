@@ -26,6 +26,28 @@ RUN apt-get update && apt-get install -y \
     libvtk6-dev \ 
     zlib1g-dev 
 
+RUN mkdir -p ~/opencv cd ~/opencv && \
+    wget https://github.com/Itseez/opencv/archive/3.0.0.zip && \
+    unzip 3.0.0.zip && \
+    rm 3.0.0.zip && \
+    mv opencv-3.0.0 OpenCV && \
+    cd OpenCV && \
+    mkdir build
+RUN  cd ~/opencv/ && ls
+RUN cd OpenCV/build && \
+    cmake \
+    -DWITH_CUDA=OFF\
+    -DWITH_QT=ON \
+    -DWITH_OPENGL=ON \
+    -DFORCE_VTK=ON \
+    -DWITH_TBB=ON \
+    -DWITH_GDAL=ON \
+    -DWITH_XINE=ON \
+    -DBUILD_EXAMPLES=ON .. && \
+    make -j4
+RUN  cd OpenCV/build &&   make install && \
+    ldconfig
+
 COPY jupyter_notebook_config.py /root/.jupyter/
 COPY run_jupyter.sh /
 RUN chmod +x /run_jupyter.sh
@@ -34,9 +56,9 @@ RUN pip install git+https://github.com/jakevdp/JSAnimation.git
 RUN apt-get install -y swig
 RUN pip install gym[all]
 RUN jupyter nbextension enable --py --sys-prefix widgetsnbextension
-RUN git clone https://github.com/rmeertens/reinforcementlearning-tensorflow-tradr-summerschool.git /notebooks/tradr
+RUN git clone https://github.com/rmeertens/reinforcementlearning-tensorflow-tradr-summerschool.git /notebooks/TRADR
 RUN apt-get install -y xvfb
-
+RUN apt-get update && apt-get install -y imagemagick
 WORKDIR "/notebooks" 
 CMD ["/run_jupyter.sh"]
 
