@@ -43,7 +43,7 @@ class BrainDQN:
 		self.saver = tf.train.Saver()
 		self.session = tf.InteractiveSession()
 		self.session.run(tf.global_variables_initializer())
-		checkpoint = tf.train.get_checkpoint_state(".")
+		checkpoint = tf.train.get_checkpoint_state("./savedweights")
 		if checkpoint and checkpoint.model_checkpoint_path:
 				self.saver.restore(self.session, checkpoint.model_checkpoint_path)
 				print "Successfully loaded:", checkpoint.model_checkpoint_path
@@ -128,7 +128,7 @@ class BrainDQN:
 
 		# save network every 100000 iteration
 		if self.timeStep % 10000 == 0:
-			self.saver.save(self.session, 'network' + '-dqn', global_step = self.timeStep)
+			self.saver.save(self.session, './savedweights/network' + '-dqn', global_step = self.timeStep)
 
 		if self.timeStep % UPDATE_TIME == 0:
 			self.copyTargetQNetwork()
