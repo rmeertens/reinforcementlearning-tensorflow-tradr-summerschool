@@ -56,10 +56,10 @@ RUN pip install git+https://github.com/jakevdp/JSAnimation.git
 RUN apt-get install -y swig
 RUN pip install gym[all]
 RUN jupyter nbextension enable --py --sys-prefix widgetsnbextension
-RUN git clone https://github.com/rmeertens/reinforcementlearning-tensorflow-tradr-summerschool.git /notebooks/TRADR
 RUN apt-get install -y xvfb
 RUN apt-get update && apt-get install -y imagemagick
 RUN pip install tqdm
+RUN git clone https://github.com/rmeertens/reinforcementlearning-tensorflow-tradr-summerschool.git /notebooks/TRADR
 WORKDIR "/notebooks" 
 CMD ["/run_jupyter.sh"]
 

@@ -1,0 +1,9 @@
+version: '2'
+services:
+  webnogwat:
+    build: .
+    ports:
+     - "8890:8888"
+     - "6007:6006"
+    volumes:
+     - .:/notebooks/volume
